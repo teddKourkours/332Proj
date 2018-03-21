@@ -1,4 +1,36 @@
 <?php require_once('config.php') ?>
+
+<?php
+    
+   if($_SERVER["REQUEST_METHOD"] == "POST") {
+      // username and password sent from form
+
+      $myusername = mysqli_real_escape_string($db,$_POST['username']);
+      $mypassword = mysqli_real_escape_string($db,$_POST['password']);
+
+      $sql = "SELECT AccountNumber FROM customer WHERE AccountNumber = '$myusername' and Password = '$mypassword'";
+      $result = mysqli_query($db,$sql);
+      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+      
+
+      $count = mysqli_num_rows($result);
+      
+      if($count == 1) {
+         $_SESSION['login_user'] = $myusername;
+
+         header("location: mainPage.php");
+      }else {
+         $error = "Your Login Name or Password is invalid";
+		 ?>
+		 <div class="alert alert-danger" role="alert">
+			<strong>Oh snap!</strong> Your Login Name or Password is invalid
+			</div>
+
+		 <?php
+      }
+   }
+?>
+
 <?php require_once( ROOT_PATH . '/includes/public_functions.php') ?>
 
 
@@ -14,36 +46,25 @@
 	</head>
 <body>
 	<!-- container - wraps whole page -->
-	<div class="container">
-	
-		<!-- Navbar -->
-		<?php require_once(ROOT_PATH . '/includes/navbar.php') ?>
-		
-		<!-- banner -->
-		<?php include(ROOT_PATH . '/includes/banner.php') ?>
+	<div class="container col-md-4">
 
-		<!-- Page content -->
-		<div class="content">
-			<h2 class="content-title">Recent Articles</h2>
-			<hr>
-			<!-- more content still to come here ... -->
-				<!-- Loops through all movies... -->
-				<?php foreach ($posts as $post): ?>
-					<div class="post" style="margin-left: 0px;">
-					<img src="<?php echo BASE_URL . '/static/images/' . $post['image']; ?>" class="post_image" alt="">
-						<a href="single_post.php?post-slug=<?php echo $post['slug']; ?>">
-							<div class="post_info">
-						<h3><?php echo $post['title'] ?></h3>
-							<div class="info">
-								<span><?php echo date("F j, Y ", strtotime($post["created_at"])); ?></span>
-								<span class="read_more">Read more...</span>
-							</div>
-						</div>
-						</a>
-				</div>
-				<?php endforeach ?>
+		<div class="login_div" style="margin-top: 30%; margin-bottom: -30%;">
+		
+		<form action="index.php" method="post" >
+			<h2>Login</h2>
+			<input type="text" name="username" placeholder="ID" style="margin">
+			<input type="password" name="password"  placeholder="Password"> 
+			<button class="btn" type="submit" name="login_btn">Sign in</button>
+		</form>
+		
+		<a href="register.php"> 
+		<button class="btn" onclick="" name="login_btn">Don't have an account? Sign Up Here</button>
+		</a>
+		
 		</div>
 		
+		
+	</div>	
 		<!-- footer -->
 		<?php require_once(ROOT_PATH . '/includes/footer.php') ?>
 </body>

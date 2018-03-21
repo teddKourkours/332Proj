@@ -114,7 +114,7 @@ form input:focus {
 	min-height: 400px;
 	color: white;
 	border-radius: 5px;
-	background-image: url('../images/banner.jpg');
+	background-image: url('../images/banner2.jpg');
 	background-size: 100% 100%;
 }
 .banner .welcome_msg {
@@ -153,6 +153,7 @@ form input:focus {
 .banner .login_div {
 	width: 50%;
 	float: left;
+	margin-top: 30%;
 }
 .banner .login_div form {
 	margin-top: 40px;

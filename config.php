@@ -2,9 +2,9 @@
 	session_start();
 
 	// connect to database
-     $conn = mysqli_connect("localhost", "root", "", "test");
+     $db = mysqli_connect("localhost", "root", "", "test");
 
-	if (!$conn) {
+	if (!$db) {
 		die("Error connecting to database: " . mysqli_connect_error());
 	}
     // define global constants
