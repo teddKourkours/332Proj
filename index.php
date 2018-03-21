@@ -5,7 +5,6 @@
 
       $myusername = mysqli_real_escape_string($db,$_POST['username']);
       $mypassword = mysqli_real_escape_string($db,$_POST['password']);
-	  
 	
       $sql = "SELECT AccountNumber FROM customer WHERE AccountNumber = '$myusername' and Password = '$mypassword'";
       $result = mysqli_query($db,$sql);
@@ -17,8 +16,12 @@
       if($count == 1) {
 			session_start();
 			
-			$_SESSION['login_user'] = $myusername;
-
+			$_SESSION['account_Num'] = $myusername;
+			
+			$result = mysqli_query($db, "SELECT isAdmin FROM Customer WHERE AccountNumber = '$myusername'");
+			
+           	$_SESSION['isAdmin'] = mysqli_fetch_assoc($result)["isAdmin"];
+			
       }else {
          $error = "Your Login Name or Password is invalid";
 		 ?>

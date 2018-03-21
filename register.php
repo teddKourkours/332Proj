@@ -24,7 +24,7 @@ require_once('config.php');
 	$sql =  "INSERT INTO Customer
 	VALUES (NULL, '$pw', '$first_name', '$last_name', $card_num,
 	  $exp_month, $exp_year, $street_num, '$street_name', $apt_num,
-	   '$city', '$province', '$postal', $phone_num, '$email')";
+	   '$city', '$province', '$postal', $phone_num, '$email', 0)";
    
    mysqli_query($db,$sql);
    
@@ -32,12 +32,10 @@ require_once('config.php');
 			
 	$result = mysqli_query($db, "SELECT MAX(AccountNumber) AS CurrentID FROM Customer");
 	
+    $_SESSION['account_Num'] = mysqli_fetch_assoc($result)["CurrentID"];
 
-	while($row = mysqli_fetch_assoc($result)) {
-           $_SESSION['login_user'] = $row["CurrentID"];
-      }
-	  
-	header('Location: home.php');
+	  echo $_SESSION['account_Num'];
+	//header('Location: home.php');
 	
  }
 ?>
