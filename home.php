@@ -19,6 +19,7 @@
 			
 			$_SESSION['login_user'] = $myusername;
 
+         header("location: mainPage.php");
       }else {
          $error = "Your Login Name or Password is invalid";
 		 ?>
@@ -30,8 +31,6 @@
       }
    }
 ?>
-
-
 
 
 <!DOCTYPE html>

@@ -2,30 +2,43 @@
 <?php
 require_once('config.php');
  if($_SERVER["REQUEST_METHOD"] == "POST") {
-// create a variable
-$pw=$_POST['Password'];
-$first_name=$_POST['FirstName'];
-$last_name=$_POST['LastName'];
-$card_num=$_POST['CardNum'];
-$exp_month=$_POST['ExpMonth'];
-$exp_year=$_POST['ExpYear'];
-$street_num=$_POST['StreetNum'];
-$street_name=$_POST['StreetName'];
-$apt_num=$_POST['AptNum'];
-$city=$_POST['City'];
-$province=$_POST['Province'];
-$postal=$_POST['PostalCode'];
-$phone_num=$_POST['PhoneNum'];
-$email=$_POST['Email'];
-if($apt_num=="")$apt_num="NULL";
-if($phone_num=="")$phone_num="NULL";
+	//initialize variables
+	$pw=$_POST['Password'];
+	$first_name=$_POST['FirstName'];
+	$last_name=$_POST['LastName'];
+	$card_num=$_POST['CardNum'];
+	$exp_month=$_POST['ExpMonth'];
+	$exp_year=$_POST['ExpYear'];
+	$street_num=$_POST['StreetNum'];
+	$street_name=$_POST['StreetName'];
+	$apt_num=$_POST['AptNum'];
+	$city=$_POST['City'];
+	$province=$_POST['Province'];
+	$postal=$_POST['PostalCode'];
+	$phone_num=$_POST['PhoneNum'];
+	$email=$_POST['Email'];
+	if($apt_num=="")$apt_num="NULL";
+	if($phone_num=="")$phone_num="NULL";
 
-//Execute the query
-$sql =  "INSERT INTO Customer
-VALUES (NULL, '$pw', '$first_name', '$last_name', $card_num,
-  $exp_month, $exp_year, $street_num, '$street_name', $apt_num,
-   '$city', '$province', '$postal', $phone_num, '$email')";
-   $result = mysqli_query($db,$sql);
+	//Execute the query
+	$sql =  "INSERT INTO Customer
+	VALUES (NULL, '$pw', '$first_name', '$last_name', $card_num,
+	  $exp_month, $exp_year, $street_num, '$street_name', $apt_num,
+	   '$city', '$province', '$postal', $phone_num, '$email')";
+   
+   mysqli_query($db,$sql);
+   
+   session_start();
+			
+	$result = mysqli_query($db, "SELECT MAX(AccountNumber) AS CurrentID FROM Customer");
+	
+
+	while($row = mysqli_fetch_assoc($result)) {
+           $_SESSION['login_user'] = $row["CurrentID"];
+      }
+	  
+	header('Location: home.php');
+	
  }
 ?>
 
