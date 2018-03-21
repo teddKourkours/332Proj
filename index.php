@@ -1,13 +1,12 @@
-<?php require_once('config.php') ?>
-
 <?php
-    
+   require_once('config.php');
    if($_SERVER["REQUEST_METHOD"] == "POST") {
       // username and password sent from form
 
       $myusername = mysqli_real_escape_string($db,$_POST['username']);
       $mypassword = mysqli_real_escape_string($db,$_POST['password']);
-
+	  
+	
       $sql = "SELECT AccountNumber FROM customer WHERE AccountNumber = '$myusername' and Password = '$mypassword'";
       $result = mysqli_query($db,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
@@ -16,7 +15,9 @@
       $count = mysqli_num_rows($result);
       
       if($count == 1) {
-         $_SESSION['login_user'] = $myusername;
+			session_start();
+			
+			$_SESSION['login_user'] = $myusername;
 
          header("location: mainPage.php");
       }else {
@@ -31,17 +32,13 @@
    }
 ?>
 
-<?php require_once( ROOT_PATH . '/includes/public_functions.php') ?>
 
 
-<!-- Retrieve all posts from database  -->
-<!-- 
-?php $posts = getMoviesAvailable(); ?> -->
 
 <!DOCTYPE html>
 <html>
-	<head>	
-		<?php require_once(ROOT_PATH . '/includes/head_section.php') ?>
+	<head>
+		<?php include(ROOT_PATH . '/includes/head_section.php') ?>
 		<title>Online Movie Tiket Service | Home </title>
 	</head>
 <body>
@@ -62,10 +59,8 @@
 		</a>
 		
 		</div>
-		
-		
 	</div>	
 		<!-- footer -->
-		<?php require_once(ROOT_PATH . '/includes/footer.php') ?>
+		<?php include(ROOT_PATH . '/includes/footer.php') ?>
 </body>
 </html>
