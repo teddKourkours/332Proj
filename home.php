@@ -5,15 +5,7 @@
    //check if post
    if($_SERVER["REQUEST_METHOD"] == "POST") {
 	   
-		
 		$_SESSION['theatrecomplex'] = mysqli_real_escape_string($db,$_POST['theatrecomlexForm']);
-		
-		if (!isset($_SESSION['date'])){
-			$_SESSION['date'] = date('Y-m-d');
-		}else{
-			$_SESSION['date'] = mysqli_real_escape_string($db,$_POST['dateForm']);
-		}
-	
 	
 	}
 	
@@ -39,7 +31,7 @@
           <ul>	
             <li class="current"><a href="home.php">Home</a></li>
             <li><a href="about.php">Contact</a></li>
-            <li><a href="myaccount.html">My Account</a></li>
+            <li><a href="myaccount.php">My Account</a></li>
           </ul>
         </nav>
       </div>
@@ -49,9 +41,13 @@
 	<div class="box-body table-responsive no-padding">
 	
 		<table class="table table-hover">
-		
+		<h3>Select a Theatre Complex</h3>
 			<tr>
-				<th>Theatre Complex&emsp;&emsp;&emsp;&emsp;Date
+				<th>Title</th>
+				<th>Time</th>
+				<th>Date</th>
+				<th></th>
+			</tr>
 				
 					<form id="complex_form" method="post">
 					<select name="theatrecomlexForm" onchange="change()">
@@ -70,22 +66,6 @@
 							}
 						?>
 					</select>
-					
-					
-					<select name="dateForm" onchange="change()">
-						
-						<!--populate drop down with Dates -->
-						<?php
-							$sql2 = mysqli_query($db, "SELECT DateOfShowing FROM playing WHERE TheatreName = '{$_SESSION['theatrecomplex']}' ORDER BY DateOfShowing");
-							while ($dateRow = $sql2->fetch_assoc()){
-								if($dateRow['DateOfShowing'] != $_SESSION['date']){
-									echo "<option>" . $dateRow['DateOfShowing'] . "</option>";
-								}
-							}
-						?>
-					</select>
-			
-					
 					</form>
 				
 					<!-- If form change, post to backend-->
@@ -95,30 +75,23 @@
 						}
 					</script>
 				
-				</th>
-			</tr>
-			
+				
 			
 			
 			<?php  
-				if ($_SESSION['date'] != "" && $_SESSION['theatrecomplex'] != ""){
-					$results = mysqli_query($db, "SELECT Title,StartHourTime,StartMinuteTime FROM playing WHERE TheatreName = '{$_SESSION['theatrecomplex']}' AND DateOfShowing > '{$_SESSION['date']}'");//AND DateOfShowing > '{$_SESSION['date']}'");//change to =
-	
-					while($data=mysqli_fetch_array($results)){ 
-			?>
-			
-			<tr>
-				<td> <?php  print_r($data[0] );?> &nbsp; <?php print_r($data[1]. ":" . $data[2]) ?></td>
-			</tr>
-				<?php }} ?>
-			<tr>
-				<td>
-					<a href="logout.php">Logout</a>
-					
-				</td>
-			</tr>
+				$results = mysqli_query($db, "SELECT Title,StartHourTime,StartMinuteTime,DateOfShowing FROM playing WHERE TheatreName = '{$_SESSION['theatrecomplex']}' ORDER BY DateOfShowing");
+				while($data=mysqli_fetch_array($results)){ ?>
+					<tr>
+						<td> <?php  print_r($data[0] );?> </td>
+						<td> <?php print_r($data[1]. ":" . $data[2]) ?> </td>
+						<td> <?php print_r($data[3]) ?> </td>
+				
+						<form action="transaction.php" method="post" >
+							<td><button class="btn" onclick="" name="purchase" value=$data[];?>">Purchase</button></td>
+						</form>
+					</tr>
+		    <?php }?>
 		</table>
-
 	</div>	
 	<!-- footer -->	
     <footer>
