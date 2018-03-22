@@ -20,13 +20,14 @@
 			
 			$result = mysqli_query($db, "SELECT isAdmin FROM Customer WHERE AccountNumber = '$myusername'");
 			
-           	$_SESSION['isAdmin'] = mysqli_fetch_assoc($result)["isAdmin"];
+           	$_SESSION['isAdmin'] = mysqli_fetch_assoc($result)["isAdmin"]; //retrieve Admin property
 			
+			header("Location: http://localhost/332Proj/home.php");
       }else {
          $error = "Your Login Name or Password is invalid";
 		 ?>
 		 <div class="alert alert-danger" role="alert">
-			<strong>Oh snap!</strong> Your Login Name or Password is invalid
+			<strong>Oh snap!</strong> Your Login ID or Password is invalid
 			</div>
 
 		 <?php
@@ -35,18 +36,27 @@
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html>
 	<head>
 		<?php include(ROOT_PATH . '/includes/head_section.php') ?>
-		<title>Online Movie Tiket Service | Home </title>
+		<title>Online Movie Tiket Service | Login </title>
 	</head>
 <body>
-	<!-- container - wraps whole page -->
-	<div class="container col-md-4">
 
+	<header>
+      <div class="container">
+        <div id="branding">
+          <h1> Online Movie Ticket Service</h1>
+        </div>
+      </div>
+    </header>
+
+
+	 
+	<div class="container col-md-4">
+		
+		
 		<div class="login_div" style="margin-top: 30%; margin-bottom: -30%;">
 		
 		<form action="index.php" method="post" >
@@ -62,7 +72,9 @@
 		
 		</div>
 	</div>	
-		<!-- footer -->
-		<?php include(ROOT_PATH . '/includes/footer.php') ?>
+		<!--<footer>-->
+		<footer>
+			<?php include(ROOT_PATH . '/includes/footer.php') ?>
+		</footer>
 </body>
 </html>

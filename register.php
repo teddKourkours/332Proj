@@ -34,8 +34,8 @@ require_once('config.php');
 	
     $_SESSION['account_Num'] = mysqli_fetch_assoc($result)["CurrentID"];
 
-	  echo $_SESSION['account_Num'];
-	//header('Location: home.php');
+	  
+	header("Location: http://localhost/332Proj/home.php");
 	
  }
 ?>
