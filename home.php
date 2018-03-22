@@ -4,9 +4,7 @@
    //check if post
    if($_SERVER["REQUEST_METHOD"] == "POST") {
 		
-		
 		$_SESSION['theatrecomplex'] = mysqli_real_escape_string($db,$_POST['theatrecomlexForm']);
-		echo $_SESSION['theatrecomplex'];
 		//if (!isset($_SESSION['date'])){
 			$_SESSION['date'] = date('Y-m-d');
 		//}else{
@@ -58,26 +56,23 @@
 			//}
 		//}
 	
-	
 	?>
 		<table class="table table-hover">
 		
 			<tr>
-				<th>Theatre Complex</th>
-				<th>Date</th>
-			</tr>
-			
-			<tr>
-				<td>
+				<th>Theatre Complex
+				
 					<form id="complex_form" method="post">
 					<select name="theatrecomlexForm" onchange="change()">
-					<option disabled selected value> -- select an option -- </option>
+					<option selected value =""><?php echo $_SESSION['theatrecomplex'] ?></option>
 					
 					<!-- populate drop down with Theatre Complex--> 
 					<?php 
-						$sql = mysqli_query($db, "SELECT Name FROM theatrecomplex");
+						$sql = mysqli_query($db, "SELECT Name FROM theatrecomplex ORDER BY NAME");
 						while ($row = $sql->fetch_assoc()){
-							echo "<option>" . $row['Name'] . "</option>";
+							if($row['Name'] != $_SESSION['theatrecomplex']){
+								echo "<option>" . $row['Name'] . "</option>";
+							}
 						}
 					?>
 					</select>
@@ -89,10 +84,10 @@
 							document.getElementById("complex_form").submit();
 						}
 					</script>
-				</td>
 				
-			
-				<td>
+				</th>
+				
+				<th>Date
 					<form id="date_form" method="post">
 					<select name="dateForm" onchange="change2()">
 					<option selected value =\"" . $_SESSION['date'] . </option>
@@ -115,16 +110,14 @@
 							document.getElementById("date_form").submit();
 						}
 					</script>
-				</td>
+				</th>
 			</tr>
 			
-			<!---->
+			
 			<?php  
 				$results = mysqli_query($db, "SELECT Title,StartHourTime,StartMinuteTime FROM playing WHERE TheatreName = '{$_SESSION['theatrecomplex']}'");//AND DateOfShowing > '{$_SESSION['date']}'
 				while($data=mysqli_fetch_array($results)){ 
 			?>
-			
-			
 			
 			<tr>
 				<td> <?php  print_r($data[0] );?> &nbsp; <?php print_r($data[1]. ":" . $data[2]) ?></td>
