@@ -1,29 +1,25 @@
 <?php
    require_once('config.php');
-   
+ session_start(); 
    //check if post
    if($_SERVER["REQUEST_METHOD"] == "POST") {
 		
-		$_SESSION['theatrecomplex'] = mysqli_real_escape_string($db,$_POST['theatrecomlexForm']);
-		$_SESSION['date'] = date("Y m d");
-		echo $_SESSION['date'];
-	  //first pass just gets the column names
-		$results = mysqli_query($db, "SELECT Title FROM playing WHERE TheatreName = '{$_SESSION['theatrecomplex']}'");
 		
-		if($results === FALSE) { 
-				//yourErrorHandler(mysqli_error($mysqli));
-			echo "ERROR";
-		}else{
-			
-			while($data=mysqli_fetch_array($results)){
-				print_r($data[0]);
-			}
-		}
+		$_SESSION['theatrecomplex'] = mysqli_real_escape_string($db,$_POST['theatrecomlexForm']);
+		echo $_SESSION['theatrecomplex'];
+		//if (!isset($_SESSION['date'])){
+			$_SESSION['date'] = date('Y-m-d');
+		//}else{
+		//	$_SESSION['date'] = mysqli_real_escape_string($db,$_POST['dateForm']);//date('Y-m-d');
+		//}
+	  
+		
 	}
 ?>
 
 
 <!DOCTYPE html>
+ 
 <html>
 	<head>
 		<?php include(ROOT_PATH . '/includes/head_section.php') ?>
@@ -47,44 +43,98 @@
     </header>
 	
 	<!-- container - wraps whole page -->
-	<div class="container">
-		<div class="row">
-			<div class="col-sm">
-				One of three columns
+	<div class="box-body table-responsive no-padding">
+	
+	<?php 
+		//$results = mysqli_query($db, "SELECT Title FROM playing WHERE TheatreName = '{$_SESSION['theatrecomplex']}' AND DateOfShowing > '{$_SESSION['date']}'");//change to =
+		
+		//if($results === FALSE) { 
+				//yourErrorHandler(mysqli_error($mysqli));
+		//	echo "ERROR";
+		//}else{
+			
+			//while($data=mysqli_fetch_array($results)){
+			//	print_r($data[0]);
+			//}
+		//}
+	
+	
+	?>
+		<table class="table table-hover">
+		
+			<tr>
+				<th>Theatre Complex</th>
+				<th>Date</th>
+			</tr>
+			
+			<tr>
+				<td>
+					<form id="complex_form" method="post">
+					<select name="theatrecomlexForm" onchange="change()">
+					<option disabled selected value> -- select an option -- </option>
+					
+					<!-- populate drop down with Theatre Complex--> 
+					<?php 
+						$sql = mysqli_query($db, "SELECT Name FROM theatrecomplex");
+						while ($row = $sql->fetch_assoc()){
+							echo "<option>" . $row['Name'] . "</option>";
+						}
+					?>
+					</select>
+					</form>
 				
-				<form id="complex_form" method="post">
-				<select name="theatrecomlexForm" onchange="change()">
-				<option disabled selected value> -- select an option -- </option>
-				<?php 
-					$sql = mysqli_query($db, "SELECT Name FROM theatrecomplex");
-					while ($row = $sql->fetch_assoc()){
-						echo "<option>" . $row['Name'] . "</option>";
-					}
-				?>
-				</select>
-				</form>
+					<!-- If form change, post to backend-->
+					<script>
+						function change(){
+							document.getElementById("complex_form").submit();
+						}
+					</script>
+				</td>
 				
-				<!-- If form change, post to backend-->
-				<script>
-					function change(){
-						document.getElementById("complex_form").submit();
-					}
-				</script>
-				
-				
-			</div>
-			<div class="col-sm">
-				One of three columns
-			</div>
-			<div class="col-sm">
-			One of three columns
-			</div>
-		</div>
+			
+				<td>
+					<form id="date_form" method="post">
+					<select name="dateForm" onchange="change2()">
+					<option selected value =\"" . $_SESSION['date'] . </option>
+					
+					
+					
+					<!-- populate drop down with Dates-->
+					<?php 
+						$sql2 = mysqli_query($db, "SELECT DateOfShowing FROM playing WHERE TheatreName = '{$_SESSION['theatrecomplex']}'");
+						while ($dateRow = $sql2->fetch_assoc()){
+							echo "<option>" . $dateRow['DateOfShowing'] . "</option>";
+						}
+					?>
+					</select>
+					</form>
+					
+					<!-- If form change, post to backend-->
+					<script>
+						function change2(){
+							document.getElementById("date_form").submit();
+						}
+					</script>
+				</td>
+			</tr>
+			
+			<!---->
+			<?php  
+				$results = mysqli_query($db, "SELECT Title,StartHourTime,StartMinuteTime FROM playing WHERE TheatreName = '{$_SESSION['theatrecomplex']}'");//AND DateOfShowing > '{$_SESSION['date']}'
+				while($data=mysqli_fetch_array($results)){ 
+			?>
+			
+			
+			
+			<tr>
+				<td> <?php  print_r($data[0] );?> &nbsp; <?php print_r($data[1]. ":" . $data[2]) ?></td>
+			</tr>
+			<?php } ?>
+			
+		</table>
 
 	</div>	
-		<!-- footer -->
-		
-		
+	<!-- footer -->	
     <footer>
 		<?php include(ROOT_PATH . '/includes/footer.php') ?>
     </footer>
