@@ -76,6 +76,12 @@ footer{
   color:#ffffff;
   background-color:#e8491d; /* orange*/
   text-align: center;
+  
+  /* --TEDS CODE- */
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 /* ============== NAV BAR ============== */

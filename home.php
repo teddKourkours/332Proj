@@ -1,13 +1,28 @@
 <?php
    require_once('config.php');
    
-  // if(isset($_SESSION['login_user']){
+   //check if post
+   if($_SERVER["REQUEST_METHOD"] == "POST") {
+		
+			
+			
+		//$_SESSION['theatrecomplex'] = mysqli_real_escape_string($db,$_POST['TheatreComplex']);
 	   
+		$hype = mysqli_real_escape_string($db,$_POST['theatrecomlexForm']);
 	   
-  // }else{
-	   
-	//echo "what?"
-   //}
+	  //first pass just gets the column names
+		$results = mysqli_query($db, "SELECT Title FROM playing WHERE TheatreName = '". $hype ."'");//'ScarboroughComplex'
+		
+		if($results === FALSE) { 
+				//yourErrorHandler(mysqli_error($mysqli));
+			echo "ERROR";
+		}else{
+			
+			while($data=mysqli_fetch_array($results)){
+				print_r($data[0]);
+			}
+		}
+	}
 ?>
 
 
@@ -39,6 +54,27 @@
 		<div class="row">
 			<div class="col-sm">
 				One of three columns
+				
+				<form id="complex_form" method="post">
+				<select name="theatrecomlexForm" onchange="change()">
+				<option disabled selected value> -- select an option -- </option>
+				<?php 
+					$sql = mysqli_query($db, "SELECT Name FROM theatrecomplex");
+					while ($row = $sql->fetch_assoc()){
+						echo "<option>" . $row['Name'] . "</option>";
+					}
+				?>
+				</select>
+				</form>
+				
+				<!-- If form change, post to backend-->
+				<script>
+					function change(){
+						document.getElementById("complex_form").submit();
+					}
+				</script>
+				
+				
 			</div>
 			<div class="col-sm">
 				One of three columns
