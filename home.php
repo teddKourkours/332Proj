@@ -4,14 +4,11 @@
    //check if post
    if($_SERVER["REQUEST_METHOD"] == "POST") {
 		
-			
-			
-		//$_SESSION['theatrecomplex'] = mysqli_real_escape_string($db,$_POST['TheatreComplex']);
-	   
-		$hype = mysqli_real_escape_string($db,$_POST['theatrecomlexForm']);
-	   
+		$_SESSION['theatrecomplex'] = mysqli_real_escape_string($db,$_POST['theatrecomlexForm']);
+		$_SESSION['date'] = date("Y m d");
+		echo $_SESSION['date'];
 	  //first pass just gets the column names
-		$results = mysqli_query($db, "SELECT Title FROM playing WHERE TheatreName = '". $hype ."'");//'ScarboroughComplex'
+		$results = mysqli_query($db, "SELECT Title FROM playing WHERE TheatreName = '{$_SESSION['theatrecomplex']}'");
 		
 		if($results === FALSE) { 
 				//yourErrorHandler(mysqli_error($mysqli));
