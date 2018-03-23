@@ -28,10 +28,15 @@
           <h1> Online Movie Ticket Service</h1>
         </div>
         <nav>
-          <ul>	
-            <li class="current"><a href="home.php">Home</a></li>
+          <ul>
+            <li><a href="home.php">Home</a></li>
             <li><a href="about.php">Contact</a></li>
-            <li><a href="myaccount.php">My Account</a></li>
+            <li><a href="account.php">My Account</a></li>
+
+              <?php if($_SESSION['isAdmin'] == 1) : ?>
+                  <li class="current"><a href="admin.php">Admin</a></li>
+              <?php endif; ?>
+
           </ul>
         </nav>
       </div>
@@ -87,7 +92,7 @@
 						<td> <?php print_r($data[3]) ?> </td>
 				
 						<form action="transaction.php" method="post" >
-							<td><button class="btn" onclick="" name="purchase" value=$data[];?>">Purchase</button></td>
+							<td><button class="btn" onclick="" name="showing_ID" value="">Purchase</button></td><!-- value=<= $data[4]>Purchase</button></td>
 						</form>
 					</tr>
 		    <?php }?>
