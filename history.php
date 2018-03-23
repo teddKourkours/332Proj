@@ -47,7 +47,7 @@ require_once('config.php');
   <div>
     <?php
       require_once('config.php');
-      $sql = "SELECT * FROM Reservation WHERE AccountNumber = '$AccNum'";
+      $sql = "Select * FROM (SELECT * FROM reservation natural join showing) AS T1 WHERE AccountNumber = '$AccNum'";
       $result = mysqli_query($db,$sql);
     ?>
     <div class="box-body table-responsive no-padding">
@@ -67,7 +67,7 @@ require_once('config.php');
                    ?>
                 <tr>
                    <td><?php print_r($row['Title']); ?></td>
-                   <td><?php print_r($row['StartTimeHour'] . " : " . $row['StartTimeMinute']); ?></td>
+                   <td><?php print_r($row['StartHourTime'] . " : " . $row['StartMinuteTime']); ?></td>
                    <td><?php print_r($row['DateOfShowing']); ?></td>
                    <td><?php print_r($row['NumberOfTickets']); ?></td>
                    <td><?php print_r($row['Price']); ?></td>
