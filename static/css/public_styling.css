@@ -1,0 +1,170 @@
+/****************
+*** DEFAULTS
+*****************/
+
+/*
+html { height: 100%; box-sizing: border-box; }
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+}
+
+/* HEADINGS DEFAULT */
+/*
+h1, h2, h3, h4, h5, h6 { color: #444; font-family: 'Averia Serif Libre', cursive; }
+a { text-decoration: none; }
+ul, ol { margin-left: 40px; }
+hr { margin: 10px 0px; opacity: .25; }
+
+
+/* ============== FORM DEFAULTS ============== */
+form h2 {
+	margin: 25px auto;
+	text-align: center;
+	font-family: 'Averia Serif Libre', cursive;
+}
+form input {
+	width: 100%;
+	display: block;
+	padding: 13px 13px;
+	font-size: 1em;
+	margin: 5px auto 10px;
+	border-radius: 3px;
+	box-sizing : border-box;
+	background: transparent;
+	border: 1px solid #3E606F;
+}
+form input:focus {
+	outline: none;
+}
+
+
+/* ============== BUTTON DEFAULT ============== */
+.btn {
+	color: white;
+	background: #4E6166;
+	text-align: center;
+	border: none;
+	border-radius: 5px;
+	display: block;
+	letter-spacing: .1em;
+	margin: 10px 0px;
+	padding: 13px 20px;
+	text-decoration: none;
+}
+
+.btn2:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+/* Global */
+.container{
+  width:80%;
+
+  margin:auto;
+}
+
+
+/* ============== FOOTER ============== */
+
+footer{
+  padding:20px;
+  margin-top:20px;
+  color:#ffffff;
+  background-color:#e8491d; /* orange*/
+  text-align: center;
+
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+
+}
+
+/* ============== NAV BAR ============== */
+/* Header */
+header{
+  background:#35424a;
+  color:#ffffff;
+  padding-top:30px;
+  min-height:70px;
+  border-bottom:#e8491d 3px solid;
+}
+
+header a{
+  color:#ffffff;
+  text-decoration:none;
+  text-transform: uppercase;
+  font-size:16px;
+}
+
+header li{
+  float:left;
+  display:inline;
+  padding: 0 20px 0 20px;
+}
+
+header #branding{
+  float:left;
+}
+
+header #branding h1{
+  margin:0;
+}
+
+header nav{
+  float:right;
+  margin-top:10px;
+}
+
+header .highlight, header .current a{
+  color:#e8491d;
+  font-weight:bold;
+}
+
+header a:hover{
+  color:#cccccc;
+  font-weight:bold;
+}
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+
+**/
