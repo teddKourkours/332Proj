@@ -15,52 +15,7 @@
 <?php
 session_start();
 ?>
-<?php
-require_once('config.php');
- if($_SERVER["REQUEST_METHOD"] == "POST") {
-  //initialize variables
-  $pw=$_POST['Password'];
-  $first_name=$_POST['FirstName'];
-  $last_name=$_POST['LastName'];
-  $card_num=$_POST['CardNum'];
-  $exp_month=$_POST['ExpMonth'];
-  $exp_year=$_POST['ExpYear'];
-  $street_num=$_POST['StreetNum'];
-  $street_name=$_POST['StreetName'];
-  $apt_num=$_POST['AptNum'];
-  $city=$_POST['City'];
-  $province=$_POST['Province'];
-  $postal=$_POST['PostalCode'];
-  $phone_num=$_POST['PhoneNum'];
-  $email=$_POST['Email'];
-  if($apt_num=="")$apt_num="NULL";
-  if($phone_num=="")$phone_num="NULL";
 
-  echo $_SESSION['account_Num'];
-
-  //Execute the query
-  $sql =  "UPDATE Customer
-          SET Password = '$pw',
-          FirstName ='$first_name',
-          LastName = '$last_name',
-          CreditCardNum = '$card_num',
-          CardExpiryMonth = '$exp_month',
-          CardExpiryYear = '$exp_year',
-          StreetNumber = '$street_num',
-          StreetName = '$street_name',
-          AptNumber = '$apt_num',
-          City = '$city',
-          Province = '$province',
-          PostalCode = '$postal',
-          PhoneNumber = '$phone_num',
-          Email = '$email'
-
-          WHERE AccountNumber = '{$_SESSION['account_Num']}'";
-
-   mysqli_query($db,$sql);
-
- }
-?>
 
 
 <html>
@@ -79,10 +34,10 @@ require_once('config.php');
           <ul>
             <li><a href="home.php">Home</a></li>
             <li><a href="about.php">Contact</a></li>
-            <li class="current"><a href="account.php">My Account</a></li>
+            <li><a href="account.php">My Account</a></li>
 
               <?php if($_SESSION['isAdmin'] == 1) : ?>
-                  <li><a href="admin.php">Admin</a></li>
+                  <li class="current"><a href="admin.php">Admin</a></li>
               <?php endif; ?>
 
           </ul>
@@ -92,28 +47,30 @@ require_once('config.php');
 
   <br/>
 
-<h2>My Account</h2>
+<h2>Administrator</h2>
 
   <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'CurrentPurchases')">View Current Purchases</button>
-    <button class="tablinks" onclick="openCity(event, 'OldPurchases')">View Old Purchases</button>
+    <button class="tablinks" onclick="openCity(event, 'MemberList')">All Customers</button>
+    <button class="tablinks" onclick="openCity(event, 'ComplexList')">All Complexes</button>
+    <button class="tablinks" onclick="openCity(event, 'Update')">Update Info</button>
+    <button class="tablinks" onclick="openCity(event, 'MemberList')">View Current Purchases</button>
+    <button class="tablinks" onclick="openCity(event, 'ComplexList')">View Old Purchases</button>
     <button class="tablinks" onclick="openCity(event, 'Update')">Update Info</button>
   </div>
 
-  <div id="CurrentPurchases" class="tabcontent">
+  <div id="MemberList" class="tabcontent">
     <?php
       require_once('config.php');
-      $sql = "Select * FROM (SELECT * FROM reservation natural join showing) AS T1 WHERE AccountNumber = '{$_SESSION['account_Num']}' AND DateOfShowing >= CURDATE() ORDER BY DateOfShowing";
+      $sql = "SELECT * FROM Customer WHERE isAdmin = 0";
       $result = mysqli_query($db,$sql);
     ?>
     <div class="box-body table-responsive no-padding">
         <table class="table table-hover">
              <tr>
-                 <th>Movie</th>
-                 <th>Time</th>
-                 <th>Date</th>
-                 <th>Number of Tickets</th>
-                 <th>Ticket Price</th>
+                 <th>Account Number</th>
+                 <th>Name</th>
+                 <th>Email</th>
+                 <th></th>
                  <th></th>
              </tr>
 
@@ -123,13 +80,14 @@ require_once('config.php');
 
                    ?>
                 <tr>
-                   <td><?php print_r($row['Title']); ?></td>
-                   <td><?php print_r($row['StartHourTime'] . " : " . $row['StartMinuteTime']); ?></td>
-                   <td><?php print_r($row['DateOfShowing']); ?></td>
-                   <td><?php print_r($row['NumberOfTickets']); ?></td>
-                   <td><?php print_r($row['Price']); ?></td>
-                   <form action="cancelpurchase.php" method="post" >
-                     <td><button class="btn" onclick="" name="cancelPurchase" value="<?php echo $row['ReservationID']  ?>">Cancel Purchase</button></td>
+                   <td><?php print_r($row['AccountNumber']); ?></td>
+                   <td><?php print_r($row['FirstName'] . " " . $row['LastName']); ?></td>
+                   <td><?php print_r($row['Email']); ?></td>
+                   <form action="removemember.php" method="post" >
+                     <td><button class="btn" onclick="" name="removeMember" value="<?php echo $row['AccountNumber']  ?>">Remove Member</button></td>
+                   </form>
+                   <form action="history.php" method="post" >
+                     <td><button class="btn" onclick="" name="memberHistory" value="<?php echo $row['AccountNumber']  ?>">Member History</button></td>
                    </form>
                  </tr>
                    <?php
@@ -143,20 +101,20 @@ require_once('config.php');
 
 
 
-  <div id="OldPurchases" class="tabcontent">
+  <div id="ComplexList" class="tabcontent">
     <?php
       require_once('config.php');
-      $sql = "Select * FROM (SELECT * FROM reservation natural join showing) AS T1 WHERE AccountNumber = '{$_SESSION['account_Num']}' AND DateOfShowing < CURDATE() ORDER BY DateOfShowing";
+      $sql = "SELECT * FROM TheatreComplex ORDER BY Name";
       $result = mysqli_query($db,$sql);
     ?>
     <div class="box-body table-responsive no-padding">
         <table class="table table-hover">
              <tr>
-                 <th>Movie</th>
-                 <th>Time</th>
-                 <th>Date</th>
-                 <th>Number of Tickets</th>
-                 <th>Ticket Price</th>
+                 <th>Name</th>
+                 <th>Address</th>
+                 <th>Phone #</th>
+                 <th></th>
+                 <th></th>
              </tr>
 
                  <?php
@@ -164,12 +122,18 @@ require_once('config.php');
                     {
 
                    ?>
-                <tr>
-                   <td><?php print_r($row['Title']); ?></td>
-                   <td><?php print_r($row['StartHourTime'] . " : " . $row['StartMinuteTime']); ?></td>
-                   <td><?php print_r($row['DateOfShowing']); ?></td>
-                   <td><?php print_r($row['NumberOfTickets']); ?></td>
-                   <td><?php print_r($row['Price']); ?></td>
+                <tr
+
+                >
+                   <td><?php print_r($row['Name']); ?></td>
+                   <td><?php print_r($row['StreetNumber'] . " " . $row['StreetName'] . ", " . $row['City'] . " " . $row['Province'] . ", " . $row['PostalCode']); ?></td>
+                   <td><?php print_r($row['PhoneNumber']); ?></td>
+                   <form action="theatres.php" method="post" >
+                     <td><button class="btn" onclick="" name="theater_btn" value="<?php echo $row['Name']  ?>">View Theatres</button></td>
+                   </form>
+                   <form action="theatres.php" method="post" >
+                     <td><button class="btn" onclick="" name="editcomplex" value="<?php echo $row['Name']  ?>">Edit Complex</button></td>
+                   </form>
                  </tr>
                    <?php
                     }
@@ -178,6 +142,11 @@ require_once('config.php');
 
           </table>
        </div>
+
+       <a href="addcomplex.php">
+   		<button class="btn" onclick="" name="login_btn">Add Complex</button>
+   		</a>
+
   </div>
 
   <div id="Update" class="tabcontent">

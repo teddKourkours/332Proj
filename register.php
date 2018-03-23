@@ -25,18 +25,18 @@ require_once('config.php');
 	VALUES (NULL, '$pw', '$first_name', '$last_name', $card_num,
 	  $exp_month, $exp_year, $street_num, '$street_name', $apt_num,
 	   '$city', '$province', '$postal', $phone_num, '$email', 0)";
-   
+
    mysqli_query($db,$sql);
-   
+
    session_start();
-			
+
 	$result = mysqli_query($db, "SELECT MAX(AccountNumber) AS CurrentID FROM Customer");
-	
+
     $_SESSION['account_Num'] = mysqli_fetch_assoc($result)["CurrentID"];
 
-	  
+
 	header("Location: http://localhost/332Proj/home.php");
-	
+
  }
 ?>
 
@@ -122,4 +122,3 @@ require_once('config.php');
 
 </body>
 </html>
-
