@@ -22,6 +22,6 @@ echo $supplier=$_POST['Supplier'];
 
     mysqli_query($db,$sql);
 
- //header("Location: http://localhost/332Proj/admin.php");
+ header("Location: http://localhost/332Proj/admin.php");
  }
 ?>

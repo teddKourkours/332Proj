@@ -45,6 +45,7 @@ session_start();
     <button class="tablinks" onclick="openCity(event, 'MemberList')">All Customers</button>
     <button class="tablinks" onclick="openCity(event, 'ComplexList')">All Complexes</button>
     <button class="tablinks" onclick="openCity(event, 'AddMovies')">Add Movies</button>
+    <button class="tablinks" onclick="openCity(event, 'Update')">Update When/Where</button>
   </div>
 
   <div id="MemberList" class="tabcontent">
@@ -116,6 +117,7 @@ session_start();
                  <th>Phone #</th>
                  <th></th>
                  <th></th>
+                 <th></th>
              </tr>
 
                  <?php
@@ -132,6 +134,9 @@ session_start();
                    </form>
                    <form action="editcomplex.php" method="post" >
                      <td><button class="btn" onclick="" name="editcomplex" value="<?php echo $row['Name']  ?>">Edit Complex</button></td>
+                   </form>
+                   <form action="updatemovies.php" method="post" >
+                     <td><button class="btn" onclick="" name="updateMovies" value="<?php echo $row['Name']  ?>">Update Movies</button></td>
                    </form>
                  </tr>
                    <?php
@@ -187,6 +192,13 @@ session_start();
                 <input type="submit" value="Add Movie">
             </form>
   </div>
+
+  <div id="Update" class="tabcontent">
+
+    <h1>Test</h1>
+
+  </div>
+
 
   <script>
   function openCity(evt, operation) {
