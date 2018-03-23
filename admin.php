@@ -1,13 +1,5 @@
 <?php
    require_once('config.php');
-
-  // if(isset($_SESSION['login_user']){
-
-
-  // }else{
-
-	//echo "what?"
-   //}
 ?>
 
 
@@ -101,12 +93,24 @@ session_start();
 
 
 
+
   <div id="ComplexList" class="tabcontent">
     <?php
       require_once('config.php');
       $sql = "SELECT * FROM TheatreComplex ORDER BY Name";
       $result = mysqli_query($db,$sql);
     ?>
+
+    <?php
+      $sqlP2 = "SELECT TheatreName FROM (SELECT* FROM playing natural join reservation)
+       AS T1 GROUP BY TheatreName ORDER BY SUM(NumberOfTickets) DESC LIMIT 1";
+      $resultP2 = mysqli_query($db,$sqlP2);
+      $popular=mysqli_fetch_array($resultP2);
+    ?>
+
+    <h3>Most popular is: <?php echo $popular['TheatreName']?></h3>
+
+
     <div class="box-body table-responsive no-padding">
         <table class="table table-hover">
              <tr>
@@ -122,16 +126,14 @@ session_start();
                     {
 
                    ?>
-                <tr
-
-                >
+                <tr>
                    <td><?php print_r($row['Name']); ?></td>
                    <td><?php print_r($row['StreetNumber'] . " " . $row['StreetName'] . ", " . $row['City'] . " " . $row['Province'] . ", " . $row['PostalCode']); ?></td>
                    <td><?php print_r($row['PhoneNumber']); ?></td>
                    <form action="theatres.php" method="post" >
                      <td><button class="btn" onclick="" name="theater_btn" value="<?php echo $row['Name']  ?>">View Theatres</button></td>
                    </form>
-                   <form action="theatres.php" method="post" >
+                   <form action="editcomplex.php" method="post" >
                      <td><button class="btn" onclick="" name="editcomplex" value="<?php echo $row['Name']  ?>">Edit Complex</button></td>
                    </form>
                  </tr>
