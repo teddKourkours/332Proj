@@ -8,6 +8,9 @@ require_once('config.php');
  if($_SERVER["REQUEST_METHOD"] == "POST") {
 
    $Complex = $_POST['theater_btn'];
+
+   $_SESSION['Complex'] = $Complex;
+
  }
 ?>
 
@@ -68,8 +71,8 @@ require_once('config.php');
                  <td><?php print_r($row['ID']); ?></td>
                  <td><?php print_r($row['MaxSeating']); ?></td>
                  <td><?php print_r($row['ScreenSize']); ?></td>
-                 <form action="theatres.php" method="post" >
-                   <td><button class="btn" onclick="" name="editcomplex" value="<?php echo $row['Name']  ?>">Edit Theatre</button></td>
+                 <form action="edittheatre.php" method="post" >
+                   <td><button class="btn" onclick="" name="edittheatre" value="<?php echo $row['ID']  ?>">Edit Theatre</button></td>
                  </form>
                </tr>
                  <?php

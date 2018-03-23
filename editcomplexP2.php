@@ -2,7 +2,8 @@
 require_once('config.php');
  if($_SERVER["REQUEST_METHOD"] == "POST") {
   //initialize variables
-  $name=$_POST['Name'];
+  echo $old_name=$_POST['oldName'];
+  echo $name=$_POST['Name'];
   $street_num=$_POST['StreetNum'];
   $street_name=$_POST['StreetName'];
   $city=$_POST['City'];
@@ -23,7 +24,7 @@ require_once('config.php');
           PhoneNumber = '$phone_num',
           NumberOfTheatres = '$num'
 
-          WHERE Name = '$name'";
+          WHERE Name = '$old_name'";
 
    mysqli_query($db,$sql);
 

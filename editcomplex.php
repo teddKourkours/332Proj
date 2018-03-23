@@ -48,6 +48,8 @@
       <form method="post" action="editcomplexP2.php">
           <h1>Edit Information</h1>
 
+          <input type="hidden" value="<?php echo $row['Name']; ?>" name="oldName" required>
+
           <label for="Name"><b>*Theatre Complex Name</b></label>
           <input type="text" value="<?php echo $row['Name']; ?>" name="Name" required>
           <br/>

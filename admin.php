@@ -44,10 +44,7 @@ session_start();
   <div class="tab">
     <button class="tablinks" onclick="openCity(event, 'MemberList')">All Customers</button>
     <button class="tablinks" onclick="openCity(event, 'ComplexList')">All Complexes</button>
-    <button class="tablinks" onclick="openCity(event, 'Update')">Update Info</button>
-    <button class="tablinks" onclick="openCity(event, 'MemberList')">View Current Purchases</button>
-    <button class="tablinks" onclick="openCity(event, 'ComplexList')">View Old Purchases</button>
-    <button class="tablinks" onclick="openCity(event, 'Update')">Update Info</button>
+    <button class="tablinks" onclick="openCity(event, 'AddMovies')">Add Movies</button>
   </div>
 
   <div id="MemberList" class="tabcontent">
@@ -151,79 +148,44 @@ session_start();
 
   </div>
 
-  <div id="Update" class="tabcontent">
-    <?php
-      require_once('config.php');
-      $sql = "SELECT * FROM Customer WHERE AccountNumber = '{$_SESSION['account_Num']}'";
-      $result = mysqli_query($db,$sql);
-      $row=mysqli_fetch_array($result);
-    ?>
-    <form method="post" action="account.php">
-        <h1>Edit Information</h1>
-        <label for="FirstName"><b>*First Name</b></label>
-        <input type="text" value="<?php echo $row['FirstName']; ?>" name="FirstName" required>
-        <br/>
-        <label for="LastName"><b>*Last Name</b></label>
-        <input type="text" value="<?php echo $row['LastName']; ?>" name="LastName" required>
-        <br/>
-        <label for="Password"><b>*Password</b></label>
-        <input type="password" value="<?php echo $row['Password']; ?>" name="Password" required>
-        <br/>
-        <label for="Email"><b>*Email</b></label>
-        <input type="text" value="<?php echo $row['Email']; ?>" name="Email" required>
-        <br/>
-        <h2>Credit Card Info</h2>
-        <label for="CardNum"><b>*Credit Card Number</b></label>
-        <input type="text" value="<?php echo $row['CreditCardNum']; ?>" name="CardNum" required>
-        <br/>
-        <label for="ExpMonth"><b>*Credit Card Expiration Month</b></label>
-        <input type="number" value="<?php echo $row['CardExpiryMonth']; ?>" name="ExpMonth" required>
-        <br/>
-        <label for="ExpYear"><b>*Credit Card Expiration Year</b></label>
-        <input type="number" value="<?php echo $row['CardExpiryYear']; ?>" name="ExpYear" required>
-        <br/>
+  <div id="AddMovies" class="tabcontent">
+            <form method="post" action="addmovie.php">
+            <h1>Add a New Movie</h1>
 
-        <h2>Address Info</h2>
-        <label for="StreetNum"><b>*Street Number</b></label>
-        <input type="number" value="<?php echo $row['StreetNumber']; ?>" name="StreetNum" required>
-        <br/>
-        <label for="StreetName"><b>*Street Name</b></label>
-        <input type="text" value="<?php echo $row['StreetName']; ?>" name="StreetName" required>
-        <br/>
-        <label for="AptNum"><b>Apartment Number</b></label>
-        <input type="number" value="<?php echo $row['AptNumber']; ?>" name="AptNum">
-        <br/>
-        <label for="City"><b>*City</b></label>
-        <input type="text" value="<?php echo $row['City']; ?>" name="City" required>
-        <br/>
-        <label for="Province"><b>*Province</b></label>
-        <select name="Province" required>
-            <option value="AB">Alberta</option>
-            <option value="BC">British Columbia</option>
-            <option value="MB">Manitoba</option>
-            <option value="NB">New Brunswick</option>
-            <option value="NL">Newfoundland and Labrador</option>
-            <option value="NS">Nova Scotia</option>
-            <option value="NT">Nothwest Territories</option>
-            <option value="NU">Nunavut</option>
-            <option value="ON">Ontario</option>
-            <option value="PE">Prince Edward Island</option>
-            <option value="QC">Quebec</option>
-            <option value="SK">Saskatchewan</option>
-            <option value="YT">Yukon Territories</option>
-        </select>
-        <br/>
-        <label for="PostalCode"><b>*Postal Code</b></label>
-        <input type="text" value="<?php echo $row['PostalCode']; ?>" name="PostalCode" required>
-        <br/>
-        <label for="PhoneNum"><b>Phone Number</b></label>
-        <input type="number" value="<?php echo $row['PhoneNumber']; ?>" name="PhoneNum">
+                <label for="c"><b>*Title</b></label>
+                <input type="text" placeholder="Enter Title" name="Title" required>
+                <br/>
+                <label for="Plot"><b>*Plot Synopsis</b></label>
+                <input type="text" placeholder="Enter Plot Synopsis" name="Plot" required>
+                <br/>
+                <label for="RunTime"><b>*Run Time (Minutes)</b></label>
+                <input type="number" placeholder="Enter Run Time" name="RunTime" required>
+                <br/>
+                <label for="Rating"><b>Rating</b></label>
+                <input type="text" placeholder="Enter Rating" name="Rating" >
+                <br/>
+                <label for="DirFName"><b>*Director First Name</b></label>
+                <input type="text" placeholder="Enter Director First Name" name="DirFName" required>
+                <br/>
+                <label for="DirLName"><b>*Director Last Name</b></label>
+                <input type="text" placeholder="Enter Director Last Name" name="DirLName" required>
+                <br/>
+                <label for="ProdComp"><b>Production Company</b></label>
+                <input type="text" placeholder="Enter Production Company" name="ProdComp" >
+                <br/>
+                <label for="StartDate"><b>*Start Date (YYYY-MM-DD)</b></label>
+                <input type="text" placeholder="Enter Start Date" name="StartDate" required>
+                <br/>
+                <label for="EndDate"><b>*End Date (YYYY-MM-DD)</b></label>
+                <input type="text" placeholder="Enter End Date" name="EndDate" required>
+                <br/>
+                <label for="Supplier"><b>*Supplier</b></label>
+                <input type="text" placeholder="Enter Supplier" name="Supplier" required>
+                <br/>
 
-
-        <br/>
-        <button class="btn" type="submit" name="update_btn">Update</button>
-    </form>
-    <br/><br/><br/>
+                <br/>
+                <input type="submit" value="Add Movie">
+            </form>
   </div>
 
   <script>
