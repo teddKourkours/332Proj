@@ -45,7 +45,7 @@ session_start();
     <button class="tablinks" onclick="openCity(event, 'MemberList')">All Customers</button>
     <button class="tablinks" onclick="openCity(event, 'ComplexList')">All Complexes</button>
     <button class="tablinks" onclick="openCity(event, 'AddMovies')">Add Movies</button>
-    <button class="tablinks" onclick="openCity(event, 'Update')">Update When/Where</button>
+    <button class="tablinks" onclick="openCity(event, 'UpdateShowing')">All Showings</button>
   </div>
 
   <div id="MemberList" class="tabcontent">
@@ -106,7 +106,7 @@ session_start();
       $popular=mysqli_fetch_array($resultP2);
     ?>
 
-    <h3>Most popular is: <?php echo $popular['TheatreName']?></h3>
+    <h3>Most Popular Theatre Complex is: <?php echo $popular['TheatreName']?></h3>
 
 
     <div class="box-body table-responsive no-padding">
@@ -193,9 +193,60 @@ session_start();
             </form>
   </div>
 
-  <div id="Update" class="tabcontent">
+  <div id="UpdateShowing" class="tabcontent">
+    <?php
+      require_once('config.php');
+      $sql = "SELECT * FROM Showing ORDER BY DateOfShowing";
+      $result = mysqli_query($db,$sql);
+    ?>
 
-    <h1>Test</h1>
+    <?php
+      $sqlP2 = "SELECT Title, SUM(NumberOfTickets) FROM (SELECT * FROM showing
+        natural join reservation) AS T1 GROUP BY Title ORDER BY SUM(NumberOfTickets) DESC LIMIT 1";
+      $resultP2 = mysqli_query($db,$sqlP2);
+      $popular=mysqli_fetch_array($resultP2);
+    ?>
+    <h3>Most Popular Movie is: <?php echo $popular['Title']?></h3>
+
+
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+             <tr>
+                 <th>Title</th>
+                 <th>Start Time</th>
+                 <th>Date</th>
+                 <th></th>
+                 <th></th>
+             </tr>
+
+                 <?php
+                    while($row=mysqli_fetch_array($result))
+                    {
+
+                   ?>
+                <tr>
+                   <td><?php print_r($row['Title']); ?></td>
+                   <td><?php print_r($row['StartHourTime'] . ":" . $row['StartMinuteTime']); ?></td>
+                   <td><?php print_r($row['DateOfShowing']); ?></td>
+                   <form action="removeshowing.php" method="post" >
+                     <td><button class="btn" onclick="" name="removeshowing" value="<?php echo $row['ShowingID']  ?>">Remove Showing</button></td>
+                   </form>
+                   <form action="editshowing.php" method="post" >
+                     <td><button class="btn" onclick="" name="editshowing" value="<?php echo $row['ShowingID']  ?>">Edit Showing</button></td>
+                   </form>
+                 </tr>
+                   <?php
+                    }
+                    ?>
+
+
+          </table>
+       </div>
+
+       <a href="addshowing.php">
+      <button class="btn" onclick="" name="addshowing">Add Showing</button>
+      </a>
+
 
   </div>
 

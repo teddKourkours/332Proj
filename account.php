@@ -157,6 +157,7 @@ require_once('config.php');
                  <th>Date</th>
                  <th>Number of Tickets</th>
                  <th>Ticket Price</th>
+                 <th></th>
              </tr>
 
                  <?php
@@ -170,6 +171,9 @@ require_once('config.php');
                    <td><?php print_r($row['DateOfShowing']); ?></td>
                    <td><?php print_r($row['NumberOfTickets']); ?></td>
                    <td><?php print_r($row['Price']); ?></td>
+                   <form action="review.php" method="post" >
+                     <td><button class="btn" onclick="" name="review" value="<?php echo $row['Title']  ?>">Add Review</button></td>
+                   </form>
                  </tr>
                    <?php
                     }
